@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Esquina de Venda MB</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo">
+    <h1>Esquina de Venda MB</h1>
+    <span class="stamp">desde 2026</span>
+  </div>
+  <button class="cart-btn" id="openCart">
+    🛒 Carrinho <span class="cart-count" id="cartCount">0</span>
+  </button>
+</header>
+
+<section class="hero">
+  <h2>Roupas, acessórios<br>e eletrodomésticos</h2>
+  <p>Tudo o que precisa, numa só esquina. Escolha os seus produtos e finalize com Multicaixa Express.</p>
+</section>
+
+<main id="shelves"></main>
+
+<footer>
+  Esquina de Venda MB · Pagamento por Multicaixa Express · Área da loja: <a href="admin.html">entrar como administrador</a>
+</footer>
+
+<!-- Carrinho -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="cartDrawer">
+  <div class="drawer-header">
+    <h2>O seu carrinho</h2>
+    <button class="close-btn" id="closeCart">✕</button>
+  </div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="drawer-footer" id="cartFooter"></div>
+</aside>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

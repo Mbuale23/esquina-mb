@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel ADM · Esquina de Venda MB</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Ecrã de login -->
+<div class="login-shell" id="loginShell">
+  <div class="login-card">
+    <h1>Esquina de Venda MB</h1>
+    <p class="sub">Área de administração</p>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="admin@exemplo.com">
+    </div>
+    <div class="field">
+      <label>Palavra-passe</label>
+      <input type="password" id="loginPassword" placeholder="••••••••">
+    </div>
+    <button class="btn-primary" id="loginBtn">Entrar</button>
+    <div id="loginError" class="error-msg"></div>
+  </div>
+</div>
+
+<!-- Painel (só aparece depois do login) -->
+<div class="admin-shell" id="adminShell" style="display:none;">
+  <div class="admin-header">
+    <h1>Painel ADM</h1>
+    <button class="btn-secondary" style="width:auto;" id="logoutBtn">Sair</button>
+  </div>
+
+  <div class="admin-nav">
+    <button class="active" data-tab="orders">Encomendas</button>
+    <button data-tab="products">Produtos</button>
+  </div>
+
+  <div id="tab-orders" class="panel"></div>
+  <div id="tab-products" class="panel" style="display:none;"></div>
+</div>
+
+<div id="modalRoot"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
