@@ -3,49 +3,86 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel ADM · Esquina de Venda MB</title>
+<title>Esquina de Venda MB</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- Ecrã de login -->
-<div class="login-shell" id="loginShell">
-  <div class="login-card">
+<header class="topbar">
+  <div class="logo">
     <h1>Esquina de Venda MB</h1>
-    <p class="sub">Área de administração</p>
-    <div class="field">
-      <label>Email</label>
-      <input type="email" id="loginEmail" placeholder="admin@exemplo.com">
+    <span class="stamp">desde 2026</span>
+  </div>
+  <nav class="cat-links">
+    <a href="#cat-Roupas">Roupas</a>
+    <a href="#cat-Acessórios">Acessórios</a>
+    <a href="#cat-Eletrônicos">Eletrônicos</a>
+    <a href="#cat-Diversos">Diversos</a>
+  </nav>
+  <button class="cart-btn" id="openCart">
+    🛒 Carrinho <span class="cart-count" id="cartCount">0</span>
+  </button>
+</header>
+
+<section class="hero">
+  <span class="hero-kicker">Multicaixa Express · Entrega em Luanda</span>
+  <h2>Roupas, acessórios<br>e eletrodomésticos</h2>
+  <p>Tudo o que precisa, numa só esquina. Escolha os seus produtos e finalize com comprovativo de pagamento.</p>
+  <a href="#produtos" class="btn-hero">Ver produtos ↓</a>
+</section>
+
+<section class="benefits">
+  <div class="benefit"><span class="ico">🚚</span><div><strong>Entrega em Luanda</strong><small>Combinada após a encomenda</small></div></div>
+  <div class="benefit"><span class="ico">🔒</span><div><strong>Compra segura</strong><small>Confirmação manual do pagamento</small></div></div>
+  <div class="benefit"><span class="ico">💳</span><div><strong>Multicaixa Express</strong><small>Envie o comprovativo no checkout</small></div></div>
+  <div class="benefit"><span class="ico">💬</span><div><strong>Atendimento direto</strong><small>Falamos consigo após a compra</small></div></div>
+</section>
+
+<section class="cat-nav">
+  <a href="#cat-Roupas" class="cat-circle"><span class="circle">👗</span>Roupas</a>
+  <a href="#cat-Acessórios" class="cat-circle"><span class="circle">💍</span>Acessórios</a>
+  <a href="#cat-Eletrônicos" class="cat-circle"><span class="circle">🔌</span>Eletrônicos</a>
+  <a href="#cat-Diversos" class="cat-circle"><span class="circle">🛍️</span>Diversos</a>
+</section>
+
+<main id="produtos">
+  <div id="shelves"></div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <h3 class="f-title">Esquina de Venda MB</h3>
+      <p class="f-text">Roupas, acessórios e eletrodomésticos, com pagamento por Multicaixa Express.</p>
     </div>
-    <div class="field">
-      <label>Palavra-passe</label>
-      <input type="password" id="loginPassword" placeholder="••••••••">
+    <div>
+      <h4 class="f-sub">Categorias</h4>
+      <a href="#cat-Roupas">Roupas</a>
+      <a href="#cat-Acessórios">Acessórios</a>
+      <a href="#cat-Eletrônicos">Eletrônicos</a>
+      <a href="#cat-Diversos">Diversos</a>
     </div>
-    <button class="btn-primary" id="loginBtn">Entrar</button>
-    <div id="loginError" class="error-msg"></div>
+    <div>
+      <h4 class="f-sub">Loja</h4>
+      <a href="admin.html">Área do administrador</a>
+    </div>
   </div>
-</div>
+  <div class="footer-bottom">Esquina de Venda MB · Todos os direitos reservados</div>
+</footer>
 
-<!-- Painel (só aparece depois do login) -->
-<div class="admin-shell" id="adminShell" style="display:none;">
-  <div class="admin-header">
-    <h1>Painel ADM</h1>
-    <button class="btn-secondary" style="width:auto;" id="logoutBtn">Sair</button>
+<!-- Carrinho -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="cartDrawer">
+  <div class="drawer-header">
+    <h2>O seu carrinho</h2>
+    <button class="close-btn" id="closeCart">✕</button>
   </div>
-
-  <div class="admin-nav">
-    <button class="active" data-tab="orders">Encomendas</button>
-    <button data-tab="products">Produtos</button>
-  </div>
-
-  <div id="tab-orders" class="panel"></div>
-  <div id="tab-products" class="panel" style="display:none;"></div>
-</div>
-
-<div id="modalRoot"></div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="drawer-footer" id="cartFooter"></div>
+</aside>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
-<script src="admin.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
