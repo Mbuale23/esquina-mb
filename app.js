@@ -4,7 +4,7 @@
 
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const CATEGORIES = ["Roupas", "Acessórios", "Eletrodomésticos"];
+const CATEGORIES = ["Roupas", "Acessórios", "Eletrônicos", "Diversos"];
 let products = [];
 let cart = []; // { id, name, price, image_url, qty, stock }
 
@@ -38,6 +38,7 @@ function renderShelves() {
     const items = products.filter(p => p.category === cat);
     const section = document.createElement("section");
     section.className = "shelf";
+    section.id = `cat-${cat}`;
     section.innerHTML = `
       <div class="shelf-header"><h2>${cat}</h2><div class="rule"></div></div>
       ${items.length === 0
