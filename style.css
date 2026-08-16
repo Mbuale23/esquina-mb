@@ -175,9 +175,45 @@ img { max-width: 100%; display: block; }
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  position: relative;
 }
 .card .img-wrap img { width: 100%; height: 100%; object-fit: cover; }
 .card .img-wrap .placeholder { font-family: 'Anton', sans-serif; color: rgba(22,35,63,0.25); font-size: 14px; }
+
+.img-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: rgba(22,35,63,0.55); color: #fff; border: none;
+  width: 26px; height: 26px; border-radius: 999px; font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+.img-nav.prev { left: 8px; }
+.img-nav.next { right: 8px; }
+.img-nav:hover { background: rgba(22,35,63,0.8); }
+
+.img-dots {
+  position: absolute; bottom: 8px; left: 0; right: 0;
+  display: flex; justify-content: center; gap: 5px;
+}
+.img-dots .dot {
+  width: 6px; height: 6px; border-radius: 999px; background: rgba(255,255,255,0.6);
+}
+.img-dots .dot.active { background: var(--marigold); }
+
+/* ---------- Miniaturas removíveis (admin) ---------- */
+.images-preview {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;
+}
+.thumb-slot {
+  position: relative; width: 64px; height: 64px; border-radius: 8px; overflow: hidden;
+  border: 1px solid var(--line);
+}
+.thumb-slot img { width: 100%; height: 100%; object-fit: cover; }
+.thumb-remove {
+  position: absolute; top: 2px; right: 2px;
+  background: rgba(22,35,63,0.75); color: #fff; border: none;
+  width: 18px; height: 18px; border-radius: 999px; font-size: 11px; line-height: 1;
+}
+.thumb-remove:hover { background: var(--red); }
 
 .card .body { padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
 .card .name { font-weight: 600; font-size: 15px; line-height: 1.3; }
