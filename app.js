@@ -48,14 +48,40 @@ function renderShelves() {
   });
 }
 
+const cardImageIndex = {};
+
+function getProductImages(p) {
+  if (p.image_urls && p.image_urls.length) return p.image_urls.slice(0, 4);
+  if (p.image_url) return [p.image_url];
+  return [];
+}
+
+function changeCardImage(id, delta) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  const images = getProductImages(p);
+  if (images.length <= 1) return;
+  cardImageIndex[id] = ((cardImageIndex[id] || 0) + delta + images.length) % images.length;
+  renderShelves();
+}
+
 function cardHtml(p) {
   const outOfStock = p.stock <= 0;
+  const images = getProductImages(p);
+  const idx = cardImageIndex[p.id] || 0;
   return `
     <div class="card">
       <div class="img-wrap">
-        ${p.image_url
-          ? `<img src="${p.image_url}" alt="${escapeHtml(p.name)}">`
+        ${images.length
+          ? `<img src="${images[idx]}" alt="${escapeHtml(p.name)}">`
           : `<span class="placeholder">SEM FOTO</span>`}
+        ${images.length > 1 ? `
+          <button class="img-nav prev" onclick="changeCardImage('${p.id}', -1)">‹</button>
+          <button class="img-nav next" onclick="changeCardImage('${p.id}', 1)">›</button>
+          <div class="img-dots">
+            ${images.map((_, i) => `<span class="dot ${i === idx ? "active" : ""}"></span>`).join("")}
+          </div>
+        ` : ""}
       </div>
       <div class="body">
         <div class="name">${escapeHtml(p.name)}</div>
@@ -84,7 +110,7 @@ function addToCart(id) {
   if (existing) {
     if (existing.qty < p.stock) existing.qty++;
   } else {
-    cart.push({ id: p.id, name: p.name, price: p.price, image_url: p.image_url, qty: 1, stock: p.stock });
+    cart.push({ id: p.id, name: p.name, price: p.price, image_url: getProductImages(p)[0], qty: 1, stock: p.stock });
   }
   renderCart();
   openCart();
