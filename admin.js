@@ -195,7 +195,8 @@ function openProductModal(id) {
           <select id="pCategory">
             <option value="Roupas" ${editing?.category === "Roupas" ? "selected" : ""}>Roupas</option>
             <option value="Acessórios" ${editing?.category === "Acessórios" ? "selected" : ""}>Acessórios</option>
-            <option value="Eletrodomésticos" ${editing?.category === "Eletrodomésticos" ? "selected" : ""}>Eletrodomésticos</option>
+            <option value="Eletrônicos" ${editing?.category === "Eletrônicos" ? "selected" : ""}>Eletrônicos</option>
+            <option value="Diversos" ${editing?.category === "Diversos" ? "selected" : ""}>Diversos</option>
           </select>
         </div>
         <div class="field"><label>Preço (Kz)</label><input id="pPrice" type="number" value="${editing ? editing.price : ""}"></div>
