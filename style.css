@@ -74,6 +74,15 @@ img { max-width: 100%; display: block; }
 
 .topbar h1 { color: var(--cream); font-size: 22px; }
 
+.cat-links { display: flex; gap: 22px; }
+.cat-links a {
+  color: rgba(251,247,241,0.8);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.cat-links a:hover { color: var(--marigold); }
+
 .cart-btn {
   background: var(--marigold);
   color: var(--navy);
@@ -105,7 +114,7 @@ img { max-width: 100%; display: block; }
 .hero {
   background: var(--navy);
   color: var(--cream);
-  padding: 56px 24px 64px;
+  padding: 64px 24px 72px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -116,6 +125,19 @@ img { max-width: 100%; display: block; }
   inset: auto 0 0 0;
   height: 14px;
   background: repeating-linear-gradient(-45deg, var(--marigold) 0 18px, var(--navy) 18px 36px);
+}
+.hero-kicker {
+  display: inline-block;
+  background: rgba(232,163,61,0.15);
+  color: var(--marigold);
+  border: 1px solid rgba(232,163,61,0.4);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 18px;
 }
 .hero h2 {
   color: var(--cream);
@@ -128,6 +150,73 @@ img { max-width: 100%; display: block; }
   color: rgba(251,247,241,0.75);
   font-size: 16px;
 }
+.btn-hero {
+  display: inline-block;
+  margin-top: 26px;
+  background: var(--marigold);
+  color: var(--navy);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 13px 26px;
+  border-radius: var(--radius);
+}
+.btn-hero:hover { background: #f2b458; }
+
+/* ---------- Benefícios ---------- */
+.benefits {
+  max-width: 1080px;
+  margin: -30px auto 0;
+  padding: 0 24px;
+  position: relative;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+}
+.benefit {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 6px 18px rgba(22,35,63,0.06);
+}
+.benefit .ico { font-size: 24px; }
+.benefit strong { display: block; font-size: 14px; color: var(--navy); }
+.benefit small { color: rgba(26,26,26,0.55); font-size: 12px; }
+
+/* ---------- Navegação por categoria ---------- */
+.cat-nav {
+  max-width: 1080px;
+  margin: 40px auto 0;
+  padding: 0 24px;
+  display: flex;
+  gap: 28px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.cat-circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--navy);
+  font-size: 13px;
+  font-weight: 600;
+}
+.cat-circle .circle {
+  width: 74px; height: 74px;
+  border-radius: 50%;
+  background: var(--cream);
+  border: 2px solid var(--marigold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px;
+}
+.cat-circle:hover .circle { background: #FCEFDA; }
 
 /* ---------- Secções por categoria ---------- */
 .shelf {
@@ -340,11 +429,42 @@ img { max-width: 100%; display: block; }
 .confirm-box p { font-size: 14px; color: rgba(26,26,26,0.65); }
 
 /* ---------- Footer ---------- */
-footer {
-  text-align: center; padding: 40px 20px 60px;
-  color: rgba(22,35,63,0.5); font-size: 13px;
+.site-footer {
+  background: var(--navy);
+  color: rgba(251,247,241,0.75);
+  margin-top: 56px;
+  padding: 48px 24px 24px;
 }
-footer a { color: var(--navy); font-weight: 600; }
+.footer-grid {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 32px;
+}
+.f-title { color: var(--cream); font-size: 20px; margin-bottom: 10px; }
+.f-text { font-size: 13px; line-height: 1.6; max-width: 320px; }
+.f-sub { color: var(--marigold); font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 12px; }
+.footer-grid a {
+  display: block;
+  color: rgba(251,247,241,0.75);
+  text-decoration: none;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.footer-grid a:hover { color: var(--marigold); }
+.footer-bottom {
+  max-width: 1080px;
+  margin: 32px auto 0;
+  padding-top: 18px;
+  border-top: 1px solid rgba(251,247,241,0.15);
+  font-size: 12px;
+  text-align: center;
+  color: rgba(251,247,241,0.5);
+}
+@media (max-width: 640px) {
+  .footer-grid { grid-template-columns: 1fr; }
+}
 
 /* ---------- Admin ---------- */
 .admin-shell { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
@@ -398,4 +518,5 @@ table.data tr:last-child td { border-bottom: none; }
 
 @media (max-width: 640px) {
   .admin-header { flex-direction: column; align-items: flex-start; }
+  .cat-links { display: none; }
 }
