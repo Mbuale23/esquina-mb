@@ -8,20 +8,38 @@
 </head>
 <body>
 
-<header class="topbar">
-  <div class="logo">
-    <h1>Esquina de Venda MB</h1>
-    <span class="stamp">desde 2026</span>
+<p class="promo-bar">🚚 Entrega em Luanda e arredores · 💳 Pagamento por Multicaixa Express</p>
+
+<header class="main-header">
+  <div class="header-container">
+    <input type="checkbox" id="menu-toggle" class="menu-toggle">
+    <label for="menu-toggle" class="hamburger" aria-label="Abrir menu">
+      <span></span><span></span><span></span>
+    </label>
+
+    <div class="logo">
+      <h1>Esquina de Venda MB</h1>
+      <span class="stamp">desde 2026</span>
+    </div>
+
+    <form class="search-form" onsubmit="return false;">
+      <input type="search" id="searchInput" placeholder="O que procura hoje?" oninput="handleSearch(this.value)">
+      <button type="submit" aria-label="Pesquisar">🔍</button>
+    </form>
+
+    <button class="cart-btn" id="openCart">
+      🛒 <span class="cart-count" id="cartCount">0</span>
+    </button>
+
+    <nav class="nav-menu">
+      <ul class="nav-list">
+        <li><a href="#cat-Roupas">Roupas</a></li>
+        <li><a href="#cat-Acessórios">Acessórios</a></li>
+        <li><a href="#cat-Eletrônicos">Eletrônicos</a></li>
+        <li><a href="#cat-Diversos">Diversos</a></li>
+      </ul>
+    </nav>
   </div>
-  <nav class="cat-links">
-    <a href="#cat-Roupas">Roupas</a>
-    <a href="#cat-Acessórios">Acessórios</a>
-    <a href="#cat-Eletrônicos">Eletrônicos</a>
-    <a href="#cat-Diversos">Diversos</a>
-  </nav>
-  <button class="cart-btn" id="openCart">
-    🛒 Carrinho <span class="cart-count" id="cartCount">0</span>
-  </button>
 </header>
 
 <section class="hero">
@@ -53,7 +71,7 @@
   <div class="footer-grid">
     <div>
       <h3 class="f-title">Esquina de Venda MB</h3>
-      <p class="f-text">Roupas, acessórios e eletrodomésticos, com pagamento por Multicaixa Express.</p>
+      <p class="f-text">Roupas, acessórios, eletrônicos e mais, com pagamento por Multicaixa Express.</p>
     </div>
     <div>
       <h4 class="f-sub">Categorias</h4>
