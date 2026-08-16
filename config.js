@@ -8,7 +8,7 @@
 // 5. Guarde o ficheiro
 
 const SUPABASE_URL = "https://xdqfrpiywbmqnqzbaalv.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_mRbg4PBkdWrYglRWzbM4ug_mMaSescN";
+const SUPABASE_ANON_KEY = "sb_publishable_QNoHz2ZVoSDNlxbXj7slfQ_xJHxQ3zF";
 
 // Número de telemóvel / Multicaixa Express para onde os clientes devem
 // transferir o pagamento antes de submeter o comprovativo.
