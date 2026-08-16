@@ -155,7 +155,7 @@ function renderProducts() {
         <tbody>
           ${products.map(p => `
             <tr>
-              <td>${p.image_url ? `<img class="thumb-sm" src="${p.image_url}">` : ""}</td>
+              <td>${getProductImages(p)[0] ? `<img class="thumb-sm" src="${getProductImages(p)[0]}">` : ""}</td>
               <td>${escapeHtml(p.name)}</td>
               <td>${p.category}</td>
               <td>${money(p.price)}</td>
@@ -172,8 +172,19 @@ function renderProducts() {
   `;
 }
 
+const MAX_IMAGES = 4;
+let modalImages = []; // URLs das fotos do produto a editar/criar
+
+function getProductImages(p) {
+  if (p?.image_urls && p.image_urls.length) return p.image_urls;
+  if (p?.image_url) return [p.image_url];
+  return [];
+}
+
 function openProductModal(id) {
   const editing = id ? products.find(p => p.id === id) : null;
+  modalImages = editing ? [...getProductImages(editing)] : [];
+
   modalRoot.innerHTML = `
     <div class="modal-overlay" id="modalOverlay">
       <div class="modal">
@@ -191,9 +202,10 @@ function openProductModal(id) {
         <div class="field"><label>Stock (unidades)</label><input id="pStock" type="number" value="${editing ? editing.stock : ""}"></div>
         <div class="field"><label>Descrição (opcional)</label><textarea id="pDesc" rows="2">${editing ? escapeHtml(editing.description || "") : ""}</textarea></div>
         <div class="field">
-          <label>Foto do produto</label>
-          <input type="file" id="pImage" accept="image/*">
-          ${editing?.image_url ? `<div class="hint">Já tem uma foto. Só selecione um ficheiro se quiser substituí-la.</div>` : ""}
+          <label>Fotos do produto (1 a ${MAX_IMAGES})</label>
+          <div id="pImagesPreview" class="images-preview"></div>
+          <input type="file" id="pImage" accept="image/*" multiple>
+          <div class="hint" id="pImageHint"></div>
         </div>
         <div id="pError" class="error-msg"></div>
         <div class="modal-actions">
@@ -203,10 +215,60 @@ function openProductModal(id) {
       </div>
     </div>
   `;
+  renderImagePreview();
+  document.getElementById("pImage").onchange = handleImageSelect;
   document.getElementById("saveProductBtn").onclick = () => saveProduct(id);
 }
 
-function closeModal() { modalRoot.innerHTML = ""; }
+function renderImagePreview() {
+  const el = document.getElementById("pImagesPreview");
+  const hintEl = document.getElementById("pImageHint");
+  if (!el) return;
+  el.innerHTML = modalImages.map((url, i) => `
+    <div class="thumb-slot">
+      <img src="${url}">
+      <button type="button" class="thumb-remove" onclick="removeModalImage(${i})">✕</button>
+    </div>
+  `).join("");
+  const fileInput = document.getElementById("pImage");
+  if (fileInput) fileInput.disabled = modalImages.length >= MAX_IMAGES;
+  if (hintEl) {
+    hintEl.textContent = modalImages.length >= MAX_IMAGES
+      ? `Já tem ${MAX_IMAGES} fotos (o máximo). Remova uma para adicionar outra.`
+      : `${modalImages.length}/${MAX_IMAGES} fotos adicionadas.`;
+  }
+}
+
+function removeModalImage(index) {
+  modalImages.splice(index, 1);
+  renderImagePreview();
+}
+
+async function handleImageSelect(e) {
+  const files = Array.from(e.target.files || []);
+  const errEl = document.getElementById("pError");
+  errEl.textContent = "";
+
+  const remaining = MAX_IMAGES - modalImages.length;
+  const toUpload = files.slice(0, remaining);
+
+  for (const file of toUpload) {
+    try {
+      const ext = file.name.split(".").pop();
+      const path = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+      const { error: upErr } = await sb.storage.from("produtos").upload(path, file);
+      if (upErr) throw upErr;
+      const { data: urlData } = sb.storage.from("produtos").getPublicUrl(path);
+      modalImages.push(urlData.publicUrl);
+      renderImagePreview();
+    } catch (err) {
+      errEl.textContent = "Erro ao enviar foto: " + err.message;
+    }
+  }
+  e.target.value = "";
+}
+
+function closeModal() { modalRoot.innerHTML = ""; modalImages = []; }
 
 async function saveProduct(id) {
   const name = document.getElementById("pName").value.trim();
@@ -214,11 +276,14 @@ async function saveProduct(id) {
   const price = parseFloat(document.getElementById("pPrice").value);
   const stock = parseInt(document.getElementById("pStock").value, 10);
   const description = document.getElementById("pDesc").value.trim();
-  const imageFile = document.getElementById("pImage").files[0];
   const errEl = document.getElementById("pError");
 
   if (!name || isNaN(price) || isNaN(stock)) {
     errEl.textContent = "Preencha nome, preço e stock corretamente.";
+    return;
+  }
+  if (modalImages.length === 0) {
+    errEl.textContent = "Adicione pelo menos 1 foto do produto.";
     return;
   }
 
@@ -227,18 +292,11 @@ async function saveProduct(id) {
   btn.textContent = "A guardar...";
 
   try {
-    let image_url = id ? products.find(p => p.id === id)?.image_url : null;
-
-    if (imageFile) {
-      const ext = imageFile.name.split(".").pop();
-      const path = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
-      const { error: upErr } = await sb.storage.from("produtos").upload(path, imageFile);
-      if (upErr) throw upErr;
-      const { data: urlData } = sb.storage.from("produtos").getPublicUrl(path);
-      image_url = urlData.publicUrl;
-    }
-
-    const payload = { name, category, price, stock, description, image_url };
+    const payload = {
+      name, category, price, stock, description,
+      image_urls: modalImages,
+      image_url: modalImages[0] // mantido para compatibilidade
+    };
 
     if (id) {
       const { error } = await sb.from("products").update(payload).eq("id", id);
