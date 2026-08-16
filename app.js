@@ -7,6 +7,7 @@ const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const CATEGORIES = ["Roupas", "Acessórios", "Eletrônicos", "Diversos"];
 let products = [];
 let cart = []; // { id, name, price, image_url, qty, stock }
+let searchTerm = "";
 
 const shelvesEl = document.getElementById("shelves");
 const cartCountEl = document.getElementById("cartCount");
@@ -32,10 +33,25 @@ async function loadProducts() {
   renderShelves();
 }
 
+function handleSearch(value) {
+  searchTerm = value.trim().toLowerCase();
+  renderShelves();
+}
+
+function matchesSearch(p) {
+  if (!searchTerm) return true;
+  return p.name.toLowerCase().includes(searchTerm) || (p.description || "").toLowerCase().includes(searchTerm);
+}
+
 function renderShelves() {
   shelvesEl.innerHTML = "";
+  let anyResults = false;
+
   CATEGORIES.forEach(cat => {
-    const items = products.filter(p => p.category === cat);
+    const items = products.filter(p => p.category === cat && matchesSearch(p));
+    if (searchTerm && items.length === 0) return; // esconde categoria vazia durante pesquisa
+    anyResults = true;
+
     const section = document.createElement("section");
     section.className = "shelf";
     section.id = `cat-${cat}`;
@@ -47,6 +63,10 @@ function renderShelves() {
     `;
     shelvesEl.appendChild(section);
   });
+
+  if (searchTerm && !anyResults) {
+    shelvesEl.innerHTML = `<p class="empty-note" style="text-align:center; padding:40px;">Nenhum produto encontrado para "${escapeHtml(searchTerm)}".</p>`;
+  }
 }
 
 const cardImageIndex = {};
